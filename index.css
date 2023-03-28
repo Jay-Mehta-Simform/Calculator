@@ -10,20 +10,11 @@
 	letter-spacing: 0.1rem;
 }
 
-:root {
-	font-size: 2vmin;
-}
-
 /*? ------------------------------ Tag Styling ----------------------------- */
 
 body {
-	/* padding: 10%;  */
-	/*! Remove padding */
 	display: flex;
 	justify-content: center;
-	/* TODO: Uncomment This */
-	/* justify-content: flex-end;  */
-	/*! Remove this */
 	align-items: center;
 	height: 100vh;
 	background-image: linear-gradient(
@@ -57,9 +48,8 @@ svg {
 
 /*? Calc Container */
 .calculator {
-	position: relative;
-	height: fit-content;
-	width: fit-content;
+	height: 645px;
+	width: 450px;
 	background-color: black;
 	border-radius: 8px;
 	box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
@@ -74,16 +64,20 @@ svg {
 	padding: 1%;
 	font-size: 1.8rem;
 	border-radius: 4px;
-	width: 22vw;
-	height: 15vh;
-	/* background-color: rgb(37, 37, 37); */
+	width: 100%;
+	height: 22.5%;
+}
+
+.screen::selection {
+	background-color: #bbbbbb;
+	color: black;
 }
 
 /*? Buttons Container */
 .buttons {
 	border-top: 0.01em solid grey;
-	height: 52vh;
-	width: 22vw;
+	height: 77.5%;
+	width: 100%;
 	padding-top: 1vh;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
@@ -92,8 +86,9 @@ svg {
 
 /*? Individual buttons' styling */
 .btn {
+	cursor: pointer;
+	user-select: none;
 	font-size: 1.2rem;
-	/* outline: 2px solid red; */
 	height: 100%;
 	width: 100%;
 	background-color: inherit;
@@ -126,4 +121,23 @@ svg {
 
 .dot {
 	font-size: 3em;
+}
+
+/*? --------------------- Media Queries -------------------------------- */
+@media screen and (max-width: 550px) {
+	:root {
+		font-size: 12px;
+	}
+	.calculator {
+		height: 450px;
+		width: 315px;
+	}
+}
+
+/*? For Nest Hub */
+@media screen and (width: 1024px) and (height: 600px) {
+	.calculator {
+		height: 450px;
+		width: 315px;
+	}
 }
