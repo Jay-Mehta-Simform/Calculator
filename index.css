@@ -1,0 +1,129 @@
+/*? Orbitron Fonts from Google */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap");
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	color: white;
+	--orange: #ff5e00;
+	font-family: "Orbitron", sans-serif;
+	letter-spacing: 0.1rem;
+}
+
+:root {
+	font-size: 2vmin;
+}
+
+/*? ------------------------------ Tag Styling ----------------------------- */
+
+body {
+	/* padding: 10%;  */
+	/*! Remove padding */
+	display: flex;
+	justify-content: center;
+	/* TODO: Uncomment This */
+	/* justify-content: flex-end;  */
+	/*! Remove this */
+	align-items: center;
+	height: 100vh;
+	background-image: linear-gradient(
+		to left,
+		rgb(66, 66, 66) 0%,
+		#bbbbbb 50%,
+		rgb(66, 66, 66) 100%
+	);
+}
+
+svg {
+	height: 1.5em;
+	width: 1.5em;
+}
+
+/*? ----------------------- Utility Classes Styling ------------------------ */
+.orange,
+.orange > * {
+	fill: var(--orange);
+	color: var(--orange);
+	stroke: var(--orange);
+}
+
+.lightFont,
+.lightFont > * {
+	color: grey;
+	fill: grey;
+}
+
+/*? ------------------------ Class Styling -------------------------------- */
+
+/*? Calc Container */
+.calculator {
+	position: relative;
+	height: fit-content;
+	width: fit-content;
+	background-color: black;
+	border-radius: 8px;
+	box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+	padding: 0.8em;
+}
+
+/*? Screen */
+.screen {
+	display: flex;
+	justify-content: end;
+	align-items: flex-end;
+	padding: 1%;
+	font-size: 1.8rem;
+	border-radius: 4px;
+	width: 22vw;
+	height: 15vh;
+	/* background-color: rgb(37, 37, 37); */
+}
+
+/*? Buttons Container */
+.buttons {
+	border-top: 0.01em solid grey;
+	height: 52vh;
+	width: 22vw;
+	padding-top: 1vh;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-auto-rows: 1fr;
+}
+
+/*? Individual buttons' styling */
+.btn {
+	font-size: 1.2rem;
+	/* outline: 2px solid red; */
+	height: 100%;
+	width: 100%;
+	background-color: inherit;
+	border-color: rgb(22, 22, 22);
+	border: none;
+}
+
+.btn:active,
+.btn:active * {
+	background-color: var(--orange);
+	color: white;
+	fill: white;
+	stroke: white;
+	border-radius: 4px;
+}
+
+/*? Particular Button Styling */
+.add {
+	font-size: 2em;
+}
+
+.multiply {
+	font-weight: 700;
+}
+
+.equals {
+	font-size: 1.5em;
+	font-weight: 500;
+}
+
+.dot {
+	font-size: 3em;
+}
