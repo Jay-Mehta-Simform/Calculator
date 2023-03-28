@@ -106,20 +106,20 @@ svg {
 }
 
 /*? Particular Button Styling */
-.add {
+#add {
 	font-size: 2em;
 }
 
-.multiply {
+#multiply {
 	font-weight: 700;
 }
 
-.equals {
+#equals {
 	font-size: 1.5em;
 	font-weight: 500;
 }
 
-.dot {
+#dot {
 	font-size: 3em;
 }
 
