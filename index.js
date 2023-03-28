@@ -1,9 +1,29 @@
 let buttonContainer = document.querySelector(".buttons");
 
-let buttonIds = Array.from(document.querySelectorAll("button")).map(
-	(item) => item.id
-);
+let trigoElements = Array.from(document.getElementsByClassName("trigo"));
+
+let screen = document.querySelector(".screen");
+
+let buttonIds = Array.from(buttonContainer.children).map((item) => item.id);
+
+let screenArr = [];
+
+function display() {
+	// screen.innerHTML += display
+}
 
 buttonContainer.addEventListener("click", (e) => {
-	console.log(buttonIds.includes(e.target.id));
+	let pressed = e.target.id;
+	handleClick(pressed);
 });
+
+function handleClick(keyPressed) {
+	if (keyPressed === "second") {
+		trigoElements.forEach((element) => element.classList.toggle("inverse"));
+	}
+	if (keyPressed === "clear") {
+		screen.innerHTML = "";
+	}
+	if (keyPressed === "back") {
+	}
+}

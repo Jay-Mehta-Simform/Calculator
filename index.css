@@ -28,6 +28,7 @@ body {
 svg {
 	height: 1.5em;
 	width: 1.5em;
+	pointer-events: none;
 }
 
 /*? ----------------------- Utility Classes Styling ------------------------ */
@@ -121,6 +122,14 @@ svg {
 
 #dot {
 	font-size: 3em;
+}
+
+.trigo sup {
+	display: none;
+}
+
+.inverse sup {
+	display: inline;
 }
 
 /*? --------------------- Media Queries -------------------------------- */
