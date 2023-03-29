@@ -4,6 +4,8 @@ const trigoElements = Array.from(document.getElementsByClassName("trigo"));
 
 const screen = document.querySelector(".screen");
 
+let degree = document.querySelector("#degree");
+
 // let buttonIds = Array.from(buttonContainer.children).map((item) => item.id);
 
 const operators = ["+", "-", "*", "/", "%"];
@@ -20,7 +22,6 @@ const inputMap = new Map([
 	["eight", 8],
 	["nine", 9],
 	["exponent", "e"],
-	["degree", "deg("],
 	["sin", "sin("],
 	["cos", "cos("],
 	["tan", "tan("],
@@ -57,6 +58,9 @@ function handleClick(keyPressed) {
 	switch (keyPressed) {
 		case "second":
 			handleSecond();
+			break;
+		case "degree":
+			handleDegree();
 			break;
 		case "clear":
 			screen.innerHTML = "";
@@ -99,29 +103,42 @@ function handleSecond() {
 	});
 }
 
+function handleDegree() {
+	degree.classList.toggle("rad");
+	if (degree.classList.contains("rad")) {
+		degree.innerHTML = "rad";
+	} else {
+		degree.innerHTML = "deg";
+	}
+}
+
 function evaluate() {
-	let generator = getCharFromArray();
-	let operator = null;
-	let operand1String = "";
-	let operand2String = "";
-	while (screenArr.length != 0) {
-		let char = generator.next().value.toString();
-		if (!operators.includes(char) && operator == null) {
-			operand1String += char;
-		} else if (!operators.includes(char) && !(operator == null)) {
-			operand2String += char;
-		} else if (operators.includes(char) && operator == null) {
-			operator = char;
-		}
-	}
-	if (operator == "+") {
-		screenArr.push(Number(operand1String) + Number(operand2String));
-		display();
-	}
+	let ans = evaluateEvalString(toEvalString(screenArr.toString()));
+	screenArr.splice(0, screenArr.length);
+	screenArr.push(ans);
+	display();
 }
 
 function* getCharFromArray() {
 	while (screenArr.length) {
 		yield screenArr.shift();
 	}
+}
+
+function toEvalString(arrString) {
+	console.debug("🚀 ~ toEvalString ~ arrString:", arrString);
+
+	let evalString = arrString
+		.replaceAll(",", "")
+		.replaceAll("^", "**")
+		.replaceAll("<sup>-1</sup>", "**-1")
+		.replaceAll("sin", "Math.sin")
+		.replaceAll("π", "Math.PI")
+		.replaceAll("sin**-1", "asin");
+	console.debug("🚀 ~ toEvalString ~ evalString:", evalString);
+	return evalString;
+}
+
+function evaluateEvalString(evalString) {
+	return eval(evalString);
 }
