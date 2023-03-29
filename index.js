@@ -32,11 +32,11 @@ const inputMap = new Map([
 	["add", "+"],
 	["power", "^"],
 	["factorial", "!"],
-	["logBase2", "log<sub>2</sub>("],
 	["logBase10", "log<sub>10</sub>("],
+	["logBasee", "log<sub>e</sub>("],
 	["leftBracket", "("],
 	["rightBracket", ")"],
-	["root", "&#8730;"],
+	["root", "&#8730;("],
 	["divideBy", "<sup>-1</sup>"],
 	["pi", "π"],
 	["dot", "."],
@@ -115,8 +115,9 @@ function handleDegree() {
 function evaluate() {
 	let ans = evaluateEvalString(toEvalString(screenArr.toString()));
 	screenArr.splice(0, screenArr.length);
-	screenArr.push(ans);
-	display();
+	// screenArr.push(ans);
+	// display();
+	screen.innerHTML = ans;
 }
 
 function* getCharFromArray() {
@@ -133,12 +134,51 @@ function toEvalString(arrString) {
 		.replaceAll("^", "**")
 		.replaceAll("<sup>-1</sup>", "**-1")
 		.replaceAll("sin", "Math.sin")
+		.replaceAll("cos", "Math.cos")
+		.replaceAll("tan", "Math.tan")
 		.replaceAll("π", "Math.PI")
-		.replaceAll("sin**-1", "asin");
+		.replaceAll("sin**-1", "asin")
+		.replaceAll("cos**-1", "acos")
+		.replaceAll("tan**-1", "atan")
+		.replaceAll("log<sub>10</sub>", "Math.log10")
+		.replaceAll("log<sub>e</sub>", "Math.log")
+		.replaceAll("&#8730;", "Math.sqrt")
+		.replaceAll("e", "Math.E");
+
+	checkForFactorial(evalString);
 	console.debug("🚀 ~ toEvalString ~ evalString:", evalString);
 	return evalString;
 }
 
 function evaluateEvalString(evalString) {
 	return eval(evalString);
+}
+
+function factorial(num) {
+	if (num == 0) {
+		return 1;
+	}
+	return num * factorial(num - 1);
+}
+
+function checkForFactorial(evalString) {
+	if (evalString.indexOf("!") != -1) {
+		let operand = "";
+		let index = evalString.indexOf("!");
+		if (evalString[index - 1] == ")") {
+			console.log("Brackets");
+		} else {
+			let prevElemIndex = index - 1;
+			while (
+				!operators.includes(evalString[prevElemIndex]) &&
+				prevElemIndex >= 0
+			) {
+				operand = evalString[prevElemIndex] + operand;
+				evalString.splice(prevElemIndex + 1, 1);
+				prevElemIndex--;
+			}
+			console.log(evalString);
+			let ans = factorial(Number(operand));
+		}
+	}
 }
