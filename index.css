@@ -31,6 +31,11 @@ svg {
 	pointer-events: none;
 }
 
+sub,
+sup {
+	font-size: 1rem;
+}
+
 /*? ----------------------- Utility Classes Styling ------------------------ */
 .orange,
 .orange > * {
@@ -61,17 +66,28 @@ svg {
 .screen {
 	display: flex;
 	justify-content: end;
-	align-items: flex-end;
+	align-content: end;
+	text-align: end;
 	padding: 1%;
 	font-size: 1.8rem;
 	border-radius: 4px;
 	width: 100%;
 	height: 22.5%;
+	flex-flow: row wrap;
+	word-break: break-all;
+	overflow: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+	scroll-behavior: smooth;
 }
 
 .screen::selection {
 	background-color: #bbbbbb;
 	color: black;
+}
+
+.screen::-webkit-scrollbar {
+	display: none;
 }
 
 /*? Buttons Container */
