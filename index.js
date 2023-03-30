@@ -113,10 +113,8 @@ function handleDegree() {
 }
 
 function evaluate() {
-	let ans = evaluateEvalString(toEvalString(screenArr.toString()));
+	let ans = toEvalString(screenArr.toString());
 	screenArr.splice(0, screenArr.length);
-	// screenArr.push(ans);
-	// display();
 	screen.innerHTML = ans;
 }
 
@@ -127,7 +125,7 @@ function* getCharFromArray() {
 }
 
 function toEvalString(arrString) {
-	console.debug("🚀 ~ toEvalString ~ arrString:", arrString);
+	console.debug("raw:", arrString);
 
 	let evalString = arrString
 		.replaceAll(",", "")
@@ -145,13 +143,19 @@ function toEvalString(arrString) {
 		.replaceAll("&#8730;", "Math.sqrt")
 		.replaceAll("e", "Math.E");
 
-	checkForFactorial(evalString);
-	console.debug("🚀 ~ toEvalString ~ evalString:", evalString);
-	return evalString;
-}
-
-function evaluateEvalString(evalString) {
-	return eval(evalString);
+	while (evalString.includes("!")) {
+		evalString = checkForFactorial(evalString);
+	}
+	console.debug("formatted:", evalString);
+	try {
+		if (evalString) {
+			return eval(evalString);
+		} else {
+			return "";
+		}
+	} catch (e) {
+		return "Error";
+	}
 }
 
 function factorial(num) {
@@ -162,23 +166,42 @@ function factorial(num) {
 }
 
 function checkForFactorial(evalString) {
-	if (evalString.indexOf("!") != -1) {
-		let operand = "";
-		let index = evalString.indexOf("!");
-		if (evalString[index - 1] == ")") {
-			console.log("Brackets");
-		} else {
-			let prevElemIndex = index - 1;
-			while (
-				!operators.includes(evalString[prevElemIndex]) &&
-				prevElemIndex >= 0
-			) {
-				operand = evalString[prevElemIndex] + operand;
-				evalString.splice(prevElemIndex + 1, 1);
-				prevElemIndex--;
+	let index = evalString.indexOf("!"); //check index of !
+	if (evalString[index - 1] == ")") {
+		let rightBracketCount = 1;
+		console.log("Brackets");
+		let indexLeftBracket = index - 2;
+		while (rightBracketCount != 0) {
+			if (evalString[indexLeftBracket] == "(") {
+				rightBracketCount--;
+			} else if (evalString[indexLeftBracket] == ")") {
+				rightBracketCount++;
 			}
-			console.log(evalString);
-			let ans = factorial(Number(operand));
+			indexLeftBracket--;
 		}
+		indexLeftBracket++;
+		let subString = evalString.substring(indexLeftBracket, index);
+		console.debug("🚀 ~ checkForFactorial ~ subString:", subString);
+		let bracketAns = eval(subString);
+		console.log("Ans =", bracketAns);
+		console.log("", evalString);
+		evalString = evalString.replaceAll(subString, bracketAns);
+		console.log("After operating", evalString);
+	} else {
+		let operand = "";
+		let prevElemIndex = index - 1;
+		while (
+			!operators.includes(evalString[prevElemIndex]) &&
+			prevElemIndex >= 0
+		) {
+			operand = evalString[prevElemIndex] + operand;
+			prevElemIndex--;
+		}
+		let ans = factorial(Number(operand));
+		evalString = evalString.replaceAll(
+			evalString.slice(prevElemIndex + 1, index + 1),
+			ans
+		);
 	}
+	return evalString;
 }
