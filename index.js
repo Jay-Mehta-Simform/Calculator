@@ -241,15 +241,24 @@ function handleMemory() {
 }
 
 function saveMemory() {
-	try {
-		calcMemory =
-			Number(screen.innerText).toString() == "NaN"
-				? null
-				: Number(screen.innerText);
-		console.log(calcMemory);
-	} catch {
-		screenArr.splice(0, screenArr.length);
-		screen.innerHTML = "Error";
+	if (screen.innerText.includes("=")) {
+		let number = screen.innerText.slice(
+			screen.innerText.indexOf("=") + 2,
+			screen.length
+		);
+		calcMemory = number.trim() === "Error" ? calcMemory : Number(number);
+		console.log(number);
+	} else {
+		try {
+			calcMemory =
+				Number(screen.innerText).toString() == "NaN"
+					? null
+					: Number(screen.innerText);
+			console.log(calcMemory);
+		} catch {
+			screenArr.splice(0, screenArr.length);
+			screen.innerHTML = "Error";
+		}
 	}
 }
 
