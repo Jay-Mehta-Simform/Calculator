@@ -2,13 +2,24 @@ const buttonContainer = document.querySelector(".buttons");
 
 const trigoElements = Array.from(document.getElementsByClassName("trigo"));
 
+let memoryElements = [
+	'<button id="memorySave" class="btn lightFont memory">MS</button>',
+	'<button id="memoryClear" class="btn lightFont memory">MC</button>',
+	'<button id="memoryRecall" class="btn lightFont memory">MR</button>',
+	'<button id="memoryAdd" class="btn lightFont memory">M+</button>',
+	'<button id="memorySubtract" class="btn lightFont memory">M-</button>',
+];
+
+let nonMemoryElements = Array.from(
+	document.getElementsByClassName("memoryNot")
+);
+
+let calcMemory = null;
+
 const screen = document.querySelector(".screen");
 
-let degree = document.querySelector("#degree");
-
-// let buttonIds = Array.from(buttonContainer.children).map((item) => item.id);
-
 const operators = ["+", "-", "*", "/", "%"];
+const parser = new DOMParser();
 
 const inputMap = new Map([
 	["zero", 0],
@@ -33,7 +44,7 @@ const inputMap = new Map([
 	["power", "^"],
 	["factorial", "!"],
 	["logBase10", "log<sub>10</sub>("],
-	["logBasee", "log<sub>e</sub>("],
+	["logBaseE", "log<sub>e</sub>("],
 	["leftBracket", "("],
 	["rightBracket", ")"],
 	["root", "&#8730;("],
@@ -43,11 +54,6 @@ const inputMap = new Map([
 ]);
 
 let screenArr = [];
-
-function display() {
-	screen.innerHTML = screenArr.toString().replaceAll(",", "");
-	screen.scrollTop = screen.scrollHeight;
-}
 
 buttonContainer.addEventListener("click", (e) => {
 	let pressed = e.target.id;
@@ -59,8 +65,27 @@ function handleClick(keyPressed) {
 		case "second":
 			handleSecond();
 			break;
-		case "degree":
-			handleDegree();
+		case "memory":
+			handleMemory();
+			break;
+		case "memorySave":
+			saveMemory();
+			break;
+		case "memoryClear":
+			calcMemory = null;
+			break;
+		case "memoryRecall":
+			if (calcMemory) {
+				console.log(calcMemory);
+				screenArr.push(calcMemory);
+				display();
+			} else alert("Memory is empty!");
+			break;
+		case "memoryAdd":
+			addMemory();
+			break;
+		case "memorySubtract":
+			subtractMemory();
 			break;
 		case "clear":
 			screen.innerHTML = "";
@@ -88,7 +113,6 @@ function handleSecond() {
 		element.classList.toggle("inverse");
 		if (element.classList.contains("inverse")) {
 			element.innerHTML = `${element.id}<sup>-1</sup>`;
-
 			inputMap.set(
 				element.id,
 				`${document.querySelector(`#${element.id}`).innerHTML}(`
@@ -103,19 +127,9 @@ function handleSecond() {
 	});
 }
 
-function handleDegree() {
-	degree.classList.toggle("rad");
-	if (degree.classList.contains("rad")) {
-		degree.innerHTML = "rad";
-	} else {
-		degree.innerHTML = "deg";
-	}
-}
-
 function evaluate() {
-	let ans = toEvalString(screenArr.toString());
-	screenArr.splice(0, screenArr.length);
-	screen.innerHTML = ans;
+	const ans = toEvalString(screenArr.toString());
+	displayAnswer(ans);
 }
 
 function* getCharFromArray() {
@@ -166,10 +180,9 @@ function factorial(num) {
 }
 
 function checkForFactorial(evalString) {
-	let index = evalString.indexOf("!"); //check index of !
+	let index = evalString.indexOf("!");
 	if (evalString[index - 1] == ")") {
 		let rightBracketCount = 1;
-		console.log("Brackets");
 		let indexLeftBracket = index - 2;
 		while (rightBracketCount != 0) {
 			if (evalString[indexLeftBracket] == "(") {
@@ -181,12 +194,8 @@ function checkForFactorial(evalString) {
 		}
 		indexLeftBracket++;
 		let subString = evalString.substring(indexLeftBracket, index);
-		console.debug("🚀 ~ checkForFactorial ~ subString:", subString);
 		let bracketAns = eval(subString);
-		console.log("Ans =", bracketAns);
-		console.log("", evalString);
 		evalString = evalString.replaceAll(subString, bracketAns);
-		console.log("After operating", evalString);
 	} else {
 		let operand = "";
 		let prevElemIndex = index - 1;
@@ -204,4 +213,56 @@ function checkForFactorial(evalString) {
 		);
 	}
 	return evalString;
+}
+
+function display() {
+	screen.innerHTML = screenArr.toString().replaceAll(",", "");
+	screen.scrollTop = screen.scrollHeight;
+}
+
+function displayAnswer(ans) {
+	screenArr.splice(0, screenArr.length);
+	screen.innerHTML += "<br>= " + ans;
+}
+
+function handleMemory() {
+	if (document.getElementsByClassName("memoryNot").length != 0) {
+		for (let i = 0; i < nonMemoryElements.length; i++) {
+			nonMemoryElements[i].replaceWith(
+				parser.parseFromString(memoryElements[i], "text/html").body.firstChild
+			);
+		}
+	} else {
+		let memoryElements = Array.from(document.getElementsByClassName("memory"));
+		for (let i = 0; i < memoryElements.length; i++) {
+			memoryElements[i].replaceWith(nonMemoryElements[i]);
+		}
+	}
+}
+
+function saveMemory() {
+	try {
+		calcMemory =
+			Number(screen.innerText).toString() == "NaN"
+				? null
+				: Number(screen.innerText);
+		console.log(calcMemory);
+	} catch {
+		screenArr.splice(0, screenArr.length);
+		screen.innerHTML = "Error";
+	}
+}
+
+function addMemory() {
+	calcMemory +=
+		Number(screen.innerText).toString() == "NaN" ? 0 : Number(screen.innerText);
+
+	console.log(calcMemory);
+}
+
+function subtractMemory() {
+	calcMemory -=
+		Number(screen.innerText).toString() == "NaN" ? 0 : Number(screen.innerText);
+
+	console.log(calcMemory);
 }
