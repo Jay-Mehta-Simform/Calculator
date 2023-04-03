@@ -195,12 +195,8 @@
 			evalString = checkForFactorial(evalString);
 		}
 		try {
-			if (evalString) {
-				return eval(evalString);
-			} else {
-				return "";
-			}
-		} catch (e) {
+			return evalString ? eval(evalString) : "";
+		} catch {
 			return "Error";
 		}
 	}
@@ -215,23 +211,19 @@
 	function checkForFactorial(evalString) {
 		let index = evalString.indexOf("!");
 		if (evalString[index - 1] == ")") {
-			let rightBracketCount = 1;
-			let indexLeftBracket = index - 2;
+			let rightBracketCount = 1,
+				indexLeftBracket = index - 2;
 			while (rightBracketCount != 0) {
-				if (evalString[indexLeftBracket] == "(") {
-					rightBracketCount--;
-				} else if (evalString[indexLeftBracket] == ")") {
-					rightBracketCount++;
-				}
+				if (evalString[indexLeftBracket] == "(") rightBracketCount--;
+				else if (evalString[indexLeftBracket] == ")") rightBracketCount++;
 				indexLeftBracket--;
 			}
 			indexLeftBracket++;
 			let subString = evalString.substring(indexLeftBracket, index);
-			let bracketAns = eval(subString);
-			evalString = evalString.replaceAll(subString, bracketAns);
+			evalString = evalString.replaceAll(subString, eval(subString));
 		} else {
-			let operand = "";
-			let prevElemIndex = index - 1;
+			let operand = "",
+				prevElemIndex = index - 1;
 			while (
 				!operators.includes(evalString[prevElemIndex]) &&
 				prevElemIndex >= 0
@@ -239,10 +231,9 @@
 				operand = evalString[prevElemIndex] + operand;
 				prevElemIndex--;
 			}
-			let ans = factorial(Number(operand));
 			evalString = evalString.replaceAll(
 				evalString.slice(prevElemIndex + 1, index + 1),
-				ans
+				factorial(Number(operand))
 			);
 		}
 		return evalString;
@@ -286,7 +277,7 @@
 	//Toggle the memory buttons.
 	function handleMemory() {
 		if (document.getElementsByClassName("memoryNot").length != 0) {
-			for (let i = 0; i < nonMemoryElements.length; i++) {
+			for (let i = nonMemoryElements.length - 1; i >= 0; i--) {
 				nonMemoryElements[i].replaceWith(
 					parser.parseFromString(memoryElements[i], "text/html").body.firstChild
 				);
@@ -295,7 +286,7 @@
 			let memoryElements = Array.from(
 				document.getElementsByClassName("memory")
 			);
-			for (let i = 0; i < memoryElements.length; i++) {
+			for (let i = memoryElements.length - 1; i >= 0; i--) {
 				memoryElements[i].replaceWith(nonMemoryElements[i]);
 			}
 		}
@@ -303,21 +294,15 @@
 
 	//Store the number visible on the screen.
 	function saveMemory() {
-		if (screen.innerText.includes("=")) {
-			let number = screen.innerText.slice(
-				screen.innerText.indexOf("=") + 2,
-				screen.length
-			);
+		let screenText = screen.innerText;
+		if (screenText.includes("=")) {
+			let number = screenText.slice(screenText.indexOf("=") + 2, screen.length);
 			calcMemory = number.trim() === "Error" ? calcMemory : Number(number);
-			console.log(calcMemory);
 		} else {
-			if (screen.innerText != "") {
+			if (screenText != "") {
 				try {
 					calcMemory =
-						Number(screen.innerText).toString() == "NaN"
-							? null
-							: Number(screen.innerText);
-					console.log(calcMemory);
+						Number(screenText).toString() == "NaN" ? null : Number(screenText);
 				} catch {
 					screenArr.splice(0, screenArr.length);
 					screen.innerHTML = "Error";
@@ -334,8 +319,6 @@
 			Number(screen.innerText).toString() == "NaN"
 				? 0
 				: Number(screen.innerText);
-
-		console.log(calcMemory);
 	}
 
 	//Subtract from the stored number
@@ -344,16 +327,12 @@
 			Number(screen.innerText).toString() == "NaN"
 				? 0
 				: Number(screen.innerText);
-
-		console.log(calcMemory);
 	}
 
 	//Display notifications for warnings
 	function notification(str) {
 		if (Notification.permission != "granted") {
-			Notification.requestPermission().then(function (permission) {
-				console.log(permission);
-			});
+			Notification.requestPermission();
 		}
 		const notification = new Notification("Calculator Message :", {
 			body: str,
