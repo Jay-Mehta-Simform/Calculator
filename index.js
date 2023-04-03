@@ -45,6 +45,42 @@
 		["pi", "π"],
 		["dot", "."],
 	]);
+	const keypadMapping = new Map([
+		["/", "divide"],
+		["*", "multiply"],
+		["-", "subtract"],
+		["+", "add"],
+		["^", "power"],
+		["%", "percent"],
+		["!", "factorial"],
+		["(", "leftBracket"],
+		[")", "rightBracket"],
+		["Backspace", "back"],
+		["Escape", "clear"],
+		["Enter", "equals"],
+		[".", "dot"],
+		["e", "exponent"],
+		["0", "zero"],
+		["1", "one"],
+		["2", "two"],
+		["3", "three"],
+		["4", "four"],
+		["5", "five"],
+		["6", "six"],
+		["7", "seven"],
+		["8", "eight"],
+		["9", "nine"],
+		["s", "sin"],
+		["c", "cos"],
+		["t", "tan"],
+		["p", "pi"],
+		["S", "second"],
+		["m", "memory"],
+		["r", "root"],
+		["l", "logBase10"],
+		["L", "logBaseE"],
+		["d", "divideBy"],
+	]);
 	let screenArr = [];
 
 	//Capture event through event delegation.
@@ -52,7 +88,12 @@
 		handleClick(e.target.id);
 	});
 
-	//Act based on which key is pressed.
+	//Capture keyboard events
+	document.addEventListener("keydown", (e) => {
+		if (keypadMapping.has(e.key)) handleClick(keypadMapping.get(e.key));
+	});
+
+	//Act based on which button is clicked.
 	function handleClick(keyPressed) {
 		switch (keyPressed) {
 			case "second":
