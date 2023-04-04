@@ -85,16 +85,16 @@
 
 	//Capture event through event delegation.
 	buttonContainer.addEventListener("click", (e) => {
-		handleClick(e.target.id);
+		handleInput(e.target.id);
 	});
 
 	//Capture keyboard events
 	document.addEventListener("keydown", (e) => {
-		if (keypadMapping.has(e.key)) handleClick(keypadMapping.get(e.key));
+		if (keypadMapping.has(e.key)) handleInput(keypadMapping.get(e.key));
 	});
 
 	//Act based on which button is clicked.
-	function handleClick(keyPressed) {
+	function handleInput(keyPressed) {
 		switch (keyPressed) {
 			case "second":
 				handleSecond();
