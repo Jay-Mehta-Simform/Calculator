@@ -4,27 +4,30 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/x-icon" href="/Assets/calculator.svg" />
 		<title>Calculator</title>
 		<link rel="stylesheet" href="index.css" />
-		<script src="index.js"></script>
+		<script defer src="index.js"></script>
 	</head>
 	<body>
 		<div class="calculator">
-			<div class="screen">404</div>
+			<div class="screen"></div>
 			<div class="buttons">
-				<button class="btn lightFont">2nd</button>
-				<button class="btn lightFont">deg</button>
-				<button class="btn lightFont">sin</button>
-				<button class="btn lightFont">cos</button>
-				<button class="btn lightFont">tan</button>
-				<button class="btn lightFont">x<sup>y</sup></button>
-				<button class="btn lightFont">lg</button>
-				<button class="btn lightFont">ln</button>
-				<button class="btn lightFont">&#40;</button>
-				<button class="btn lightFont">&#41;</button>
-				<button class="btn lightFont">&#8730;x</button>
-				<button class="btn orange">AC</button>
-				<button class="btn orange backspace">
+				<button id="second" class="btn lightFont">2nd</button>
+				<button id="memory" class="btn lightFont">M</button>
+				<button id="sin" class="btn lightFont trigo">sin</button>
+				<button id="cos" class="btn lightFont trigo">cos</button>
+				<button id="tan" class="btn lightFont trigo">tan</button>
+				<button id="power" class="btn lightFont memoryNot">
+					x<sup>y</sup>
+				</button>
+				<button id="logBase10" class="btn lightFont">lg</button>
+				<button id="logBaseE" class="btn lightFont">ln</button>
+				<button id="leftBracket" class="btn lightFont">&#40;</button>
+				<button id="rightBracket" class="btn lightFont">&#41;</button>
+				<button id="root" class="btn lightFont memoryNot">&#8730;x</button>
+				<button id="clear" class="btn orange">AC</button>
+				<button id="back" class="btn orange">
 					<svg version="1.1" viewBox="-80 -100 620 620">
 						<g>
 							<g>
@@ -45,8 +48,8 @@
 						</g>
 					</svg>
 				</button>
-				<button class="btn orange">%</button>
-				<button class="btn orange divide">
+				<button id="percent" class="btn orange">%</button>
+				<button id="divide" class="btn orange">
 					<svg viewBox="0 0 24 24">
 						<path
 							d="M6.34277 12L17.6565 12"
@@ -68,16 +71,16 @@
 						/>
 					</svg>
 				</button>
-				<button class="btn lightFont">x!</button>
-				<button class="btn">7</button>
-				<button class="btn">8</button>
-				<button class="btn">9</button>
-				<button class="btn orange multiply">x</button>
-				<button class="btn lightFont">1/x</button>
-				<button class="btn">4</button>
-				<button class="btn">5</button>
-				<button class="btn">6</button>
-				<button class="btn orange subtract">
+				<button id="factorial" class="btn lightFont memoryNot">x!</button>
+				<button id="seven" class="btn">7</button>
+				<button id="eight" class="btn">8</button>
+				<button id="nine" class="btn">9</button>
+				<button id="multiply" class="btn orange">x</button>
+				<button id="divideBy" class="btn lightFont memoryNot">1/x</button>
+				<button id="four" class="btn">4</button>
+				<button id="five" class="btn">5</button>
+				<button id="six" class="btn">6</button>
+				<button id="subtract" class="btn orange">
 					<svg viewBox="0 -2 24 24">
 						<path
 							d="M6.34277 12L17.6565 12"
@@ -87,12 +90,12 @@
 						/>
 					</svg>
 				</button>
-				<button class="btn lightFont pi">π</button>
-				<button class="btn">1</button>
-				<button class="btn">2</button>
-				<button class="btn">3</button>
-				<button class="btn orange add">+</button>
-				<button class="btn orange change">
+				<button id="pi" class="btn lightFont memoryNot">π</button>
+				<button id="one" class="btn">1</button>
+				<button id="two" class="btn">2</button>
+				<button id="three" class="btn">3</button>
+				<button id="add" class="btn orange">+</button>
+				<button id="change" class="btn orange">
 					<svg viewBox="0 0 512 512">
 						<g>
 							<g>
@@ -111,10 +114,10 @@
 						</g>
 					</svg>
 				</button>
-				<button class="btn">e</button>
-				<button class="btn">0</button>
-				<button class="btn dot">•</button>
-				<button class="btn orange equals">=</button>
+				<button id="exponent" class="btn">e</button>
+				<button id="zero" class="btn">0</button>
+				<button id="dot" class="btn">•</button>
+				<button id="equals" class="btn orange">=</button>
 			</div>
 		</div>
 	</body>
